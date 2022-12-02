@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="4" passed="4" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2022-12-02T09:43:19 IST" name="Default suite" finished-at="2022-12-02T09:44:04 IST" duration-ms="44966">
+    <groups>
+    </groups>
+    <test started-at="2022-12-02T09:43:19 IST" name="Default test" finished-at="2022-12-02T09:44:04 IST" duration-ms="44966">
+      <class name="com.artoftesting.test.SuiteArchitect">
+        <test-method is-config="true" signature="fn_initializechrome()[pri:0, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:43:19 IST" name="fn_initializechrome" finished-at="2022-12-02T09:43:31 IST" duration-ms="12008" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_initializechrome -->
+        <test-method signature="fn_Login()[pri:0, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:43:31 IST" name="fn_Login" finished-at="2022-12-02T09:43:39 IST" duration-ms="8275" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_Login -->
+        <test-method signature="fn_DefinitionCreate(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:43:39 IST" name="fn_DefinitionCreate" data-provider="definition_names" finished-at="2022-12-02T09:43:51 IST" duration-ms="11309" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[D0.2492166032001264]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Automobile]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[India]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[Fri, 2 Dec 2022 09:43:26 +0530]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_DefinitionCreate -->
+        <test-method signature="fn_DefinitionCreate(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:43:51 IST" name="fn_DefinitionCreate" data-provider="definition_names" finished-at="2022-12-02T09:44:03 IST" duration-ms="11869" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[D0.06136746481350985]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[Automobile]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[India]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[Fri, 2 Dec 2022 09:43:26 +0530]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_DefinitionCreate -->
+        <test-method signature="fn_createService()[pri:2, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:44:03 IST" name="fn_createService" finished-at="2022-12-02T09:44:03 IST" duration-ms="881" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_createService -->
+        <test-method is-config="true" signature="fn_quitBrowser()[pri:0, instance:com.artoftesting.test.SuiteArchitect@4efac082]" started-at="2022-12-02T09:44:03 IST" name="fn_quitBrowser" finished-at="2022-12-02T09:44:04 IST" duration-ms="579" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- fn_quitBrowser -->
+      </class> <!-- com.artoftesting.test.SuiteArchitect -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
