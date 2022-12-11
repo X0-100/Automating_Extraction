@@ -8,15 +8,15 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class LoginReadData {
+public class ReadData {
 
     public static XSSFWorkbook wb;
     public static XSSFSheet sheet;
     public static DataFormatter df = new DataFormatter();
 
-    public static void fn_initialize(String excelfile) {
+    public static void fn_initialize(String filepath) {
 	try {
-	    File file = new File(excelfile);
+	    File file = new File(filepath);
 	    FileInputStream fis = new FileInputStream(file);
 	    wb = new XSSFWorkbook(fis);
 

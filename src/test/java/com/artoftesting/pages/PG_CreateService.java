@@ -1,7 +1,6 @@
 package com.artoftesting.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class PG_CreateService {
 
@@ -13,8 +12,18 @@ public class PG_CreateService {
 	return By.xpath("//button[@class = \"primary_button\"]//span");
     }
 
-    public static By fn_click_create_service_button(WebDriver driver) {
-	return By.xpath("//button[@class = \"primary_button\"]//span");
+    public static By fn_enterservicename() {
+	return By.xpath("//*[@aria-label=\"Service Name\"]");
+
+    }
+
+    public static By fn_selectappservertype() {
+
+	return (By.xpath("//select[@class=\"Languagedropdown_Style\"][1]"));
+    }
+
+    public static By fn_entersleepinterval() {
+	return By.xpath("//*[@aria-label=\"Sleep Interval\"]");
     }
 
 }

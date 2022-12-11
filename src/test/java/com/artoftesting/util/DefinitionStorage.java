@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -15,10 +16,12 @@ public class DefinitionStorage {
     public static XSSFWorkbook wb;
     public static FileOutputStream fos;
     public static FileInputStream fis;
+    public static String def_path = String.format(".//src//test//resources//DefinitionData//DefinitionStorage_%d.xlsx",
+	    new Random().nextInt(3));
 
     public static void fn_createheader() throws Exception {
 
-	fos = new FileOutputStream(".//src//test//resources//DefinitionData//DefinitionStorage.xlsx");
+	fos = new FileOutputStream(def_path);
 	wb = new XSSFWorkbook();
 	XSSFSheet sheet = wb.createSheet("DEF-ATR");
 	XSSFRow row = sheet.createRow(0);
@@ -43,13 +46,13 @@ public class DefinitionStorage {
 
     public static void fn_write(int defcount) throws Exception {
 
-	fis = new FileInputStream(".//src//test//resources//DefinitionData//DefinitionStorage.xlsx");
+	fis = new FileInputStream(def_path);
 
 	wb = new XSSFWorkbook(fis);
 
 	XSSFSheet sheet = wb.getSheet("DEF-ATR");
 
-	for (int i = 1; i < defcount; i++) {
+	for (int i = 1; i <= defcount; i++) {
 	    XSSFRow row = sheet.createRow(i);
 
 	    XSSFCell defname = row.createCell(0);
@@ -68,7 +71,7 @@ public class DefinitionStorage {
 
 	fis.close();
 
-	fos = new FileOutputStream(".//src//test//resources//DefinitionData//DefinitionStorage.xlsx");
+	fos = new FileOutputStream(def_path);
 	wb.write(fos);
 	wb.close();
 	fos.close();
