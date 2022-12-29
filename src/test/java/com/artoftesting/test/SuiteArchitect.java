@@ -5,6 +5,7 @@ import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -17,9 +18,16 @@ import com.artoftesting.util.ReadData;
 import com.artoftesting.util.ServiceStorage;
 import com.artoftesting.webdriverwait.Hibernate;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class SuiteArchitect {
 
     public static WebDriver driver;
+
+    @BeforeClass
+    public static void instantiate() {
+	WebDriverManager.chromedriver().setup();
+    }
 
     @BeforeTest
     public static void fn_initializechrome() throws Exception {
@@ -29,18 +37,18 @@ public class SuiteArchitect {
 	driver.manage().window().maximize();
 
 	DefinitionStorage.fn_createheader();
-	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3000));
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(9000));
 
 	int dfcount = 3;
 	DefinitionStorage.fn_write(dfcount);
 	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(9000));
 
 	ServiceStorage.fn_createheader();
-	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3000));
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(9000));
 
 	int servicecount = 2;
-	ServiceStorage.fn_write(servicecount, "Windows service", 1, "JBossEAP",
-		"http://192.168.152.190:8080/oxejbintegrator/rest/api/execute", 8080, "saurabh_12may", "ipsfrs",
+	ServiceStorage.fn_write(servicecount, "Windows service", "1", "JBossEAP",
+		"http://192.168.152.190:8080/oxejbintegrator/rest/api/execute", "8080", "saurabh_12may", "ipsfrs",
 		"system123#", "iPS_Registration", "Kadmos");
 	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3000));
 
@@ -64,8 +72,6 @@ public class SuiteArchitect {
 	return credentials;
     }
 
-    /* dataProvider = "login-test-data", */
-    /* String username, String password */
     @Test(priority = 0)
     public static void fn_Login() throws Exception {
 
@@ -73,10 +79,10 @@ public class SuiteArchitect {
 	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(12000));
 	driver.findElement(PG_Login.fn_idusername()).sendKeys("supervisor");
 	driver.findElement(PG_Login.fn_idpassword()).sendKeys("supervisor351");
-	driver.findElement(PG_Login.fn_xpathloginbutton()).click();
+	Hibernate.fn_setwait("elementToBeClickable", 3000, driver, PG_Login.fn_xpathloginbutton());
 
-	Hibernate.fn_setwait("elementToBeClickable", 12000, driver, PG_CreateDefinition.fn_definitiontab());
-	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
+	Hibernate.fn_setwait("elementToBeClickable", 5000, driver, PG_CreateDefinition.fn_definitiontab());
+	Hibernate.fn_setwait("visibilityOfElementLocated", 5000, driver,
 		PG_CreateDefinition.fn_xpathcreatedefinitionbutton());
 
     }
@@ -87,6 +93,9 @@ public class SuiteArchitect {
 
 	int rows = ReadData.fn_getrowcount(0);
 	int cells = ReadData.fn_getcellcount(0);
+
+	System.out.println("DEFINITION ROWS COUNT  :" + rows);
+	System.out.println("DEFINITION CELL COUNT  :" + cells);
 
 	String[][] credentials = new String[rows - 1][cells];
 
@@ -109,19 +118,16 @@ public class SuiteArchitect {
 	 */
 
 	Module_Definition_4_0.fn_create_definition_button_action(driver);
-	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
 
 	String ppoupDefinition = Module_Definition_4_0.fn_module_definition_title_assert(driver);
 	Assert.assertTrue(ppoupDefinition.compareTo("OmniXtract - Definition") == 0);
 
 	Module_Definition_4_0.fn_click_show_list(driver);
-	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
+	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver, PG_CreateDefinition.fn_clickShowList());
 
 	Module_Definition_4_0.fn_select_table_data(driver);
 	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
+		PG_CreateDefinition.fn_selectDefinitionList());
 
 	Module_Definition_4_0.fn_enter_definition_name_action(driver, defname);
 	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
@@ -129,15 +135,14 @@ public class SuiteArchitect {
 
 	Module_Definition_4_0.fn_select_domain_name_action(driver, domainname);
 	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
+		PG_CreateDefinition.fn_xpathdomainnameDropdown());
 
 	Module_Definition_4_0.fn_select_country_name_action(driver, countryname);
 	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
+		PG_CreateDefinition.fn_xpathcountrynameDropdown());
 
 	Module_Definition_4_0.fn_enter_description_action(driver, description);
-	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver,
-		PG_CreateDefinition.fn_xpathdefinitionnametxtbox());
+	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver, PG_CreateDefinition.fn_clickcreateButton());
 
 	Module_Definition_4_0.fn_clickcreate(driver);
 
@@ -145,10 +150,13 @@ public class SuiteArchitect {
 
     @DataProvider(name = "service_creation_data")
     public static Object[][] fn_testServiceFeed() {
-	ReadData.fn_initialize(ServiceStorage.servicefile);
+	ReadData.fn_initialize(ServiceStorage.servicefilewrite);
 
 	int rows = ReadData.fn_getrowcount(0);
 	int cells = ReadData.fn_getcellcount(0);
+
+	System.out.println("SERVICE ROWS COUNT  : " + rows);
+	System.out.println("SERVICE CELL COUNT  : " + cells);
 
 	String[][] servicefetcher = new String[rows - 1][cells];
 
@@ -162,8 +170,10 @@ public class SuiteArchitect {
     }
 
     @Test(priority = 2, dataProvider = "service_creation_data")
-    public static void fn_createService(String servicename, String servicetype, int sleep, String appserver)
-	    throws Exception {
+    public static void fn_createService(String servicename, String servicetype, int sleep, String appservertype,
+	    String appserverurl, String appserverport, String cabinetname, String username, String password,
+	    String queuename, String engine) throws Exception {
+
 	Hibernate.fn_setwait("visibilityOfElementLocated", 12000, driver, PG_CreateService.fn_servicetab());
 	Hibernate.fn_setwait("elementToBeClickable", 12000, driver, PG_CreateService.fn_servicetab());
 
@@ -180,9 +190,30 @@ public class SuiteArchitect {
 	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_entersleepinterval());
 
 	Module_Services_4_0.fn_enter_sleep_interval(driver, sleep);
-	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_entersleepinterval());
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_selectappserver());
 
-	Module_Services_4_0.fn_select_app_server_type(driver, appserver);
+	Module_Services_4_0.fn_select_app_server_type(driver, appservertype);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_inputappserverblock());
+
+	Module_Services_4_0.fn_appserverurl(driver, appserverurl);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_appserverportblock());
+
+	Module_Services_4_0.fn_appserverport(driver, appserverport);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_cabinetnameblock());
+
+	Module_Services_4_0.fn_cabinetname(driver, cabinetname);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_usernameblock());
+
+	Module_Services_4_0.fn_username(driver, username);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_passwordblock());
+
+	Module_Services_4_0.fn_password(driver, password);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_queue());
+
+	Module_Services_4_0.fn_queuename(driver, queuename);
+	Hibernate.fn_setwait("visibilityOfElementLocated", 2000, driver, PG_CreateService.fn_selectengine());
+
+	Module_Services_4_0.fn_enginename(driver, engine);
     }
 
 //    @AfterTest

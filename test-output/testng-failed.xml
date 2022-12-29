@@ -5,9 +5,11 @@
     <classes>
       <class name="com.artoftesting.test.SuiteArchitect">
         <methods>
+          <include name="instantiate"/>
           <include name="fn_createService"/>
           <include name="fn_DefinitionCreate" invocation-numbers="0 1 2"/>
           <include name="fn_initializechrome"/>
+          <include name="fn_Login"/>
         </methods>
       </class> <!-- com.artoftesting.test.SuiteArchitect -->
     </classes>

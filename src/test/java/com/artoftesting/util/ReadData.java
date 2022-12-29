@@ -36,7 +36,7 @@ public class ReadData {
     public static int fn_getcellcount(int sheetIndex) {
 
 	sheet = wb.getSheetAt(sheetIndex);
-	XSSFRow row = sheet.getRow(2);
+	XSSFRow row = sheet.getRow(0);
 	return (row.getLastCellNum());
     }
 

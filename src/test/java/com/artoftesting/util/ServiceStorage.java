@@ -9,21 +9,25 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import net.bytebuddy.utility.RandomString;
+import io.netty.util.internal.ThreadLocalRandom;
 
 public class ServiceStorage {
 
     public static FileOutputStream fos;
     public static FileInputStream fis;
-    public static XSSFWorkbook wb;
-    public static String somerandomappender = new RandomString().nextString();
-    public static String servicefile = String.format(".//src//test//resources//DefinitionData//ServiceStorage_%s.xlsx",
-	    somerandomappender);
+
+    /*
+     * public static int randomnumfile = ThreadLocalRandom.current().nextInt(3, 5 +
+     * 1);
+     */
+
+    public static String servicefileread = ".//src//test//resources//ServiceData//ServiceStorageREAD.xlsx";
+    public static String servicefilewrite = ".//src//test//resources//ServiceData//ServiceStorageWRITE.xlsx";
 
     public static void fn_createheader() throws IOException {
 
-	fos = new FileOutputStream(servicefile);
-	wb = new XSSFWorkbook();
+	fos = new FileOutputStream(servicefileread);
+	XSSFWorkbook wb = new XSSFWorkbook();
 	XSSFSheet sheet = wb.createSheet("Service_Input");
 	XSSFRow row = sheet.createRow(0);
 
@@ -66,30 +70,74 @@ public class ServiceStorage {
 
     }
 
-    public static void fn_write(int servicecount, String servicetype, int sleep, String appserver, String appserverurl,
-	    int port, String cabinetname, String username, String password, String queuename, String engine)
-	    throws Exception {
-	fis = new FileInputStream(servicefile);
-	fos = new FileOutputStream(servicefile);
-	XSSFWorkbook wb = new XSSFWorkbook(fis);
+    public static void fn_write(int servicecount, String servicetype, String sleep, String appserver,
+	    String appserverurl, String port, String cabinetname, String username, String password, String queuename,
+	    String engine) throws Exception {
 
-	for (int x = 1; x <= servicecount; x++) {
-	    wb.getSheetAt(0).getRow(x).createCell(0)
-		    .setCellValue(String.format("SERVICE_%d", new RandomString().nextString()));
-	    wb.getSheetAt(0).getRow(x).createCell(1).setCellValue(servicetype);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(sleep);
-	    wb.getSheetAt(0).getRow(x).createCell(3).setCellValue(appserver);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(appserverurl);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(port);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(cabinetname);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(username);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(password);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(queuename);
-	    wb.getSheetAt(0).getRow(x).createCell(2).setCellValue(engine);
+	fos = new FileOutputStream(servicefilewrite);
+	fis = new FileInputStream(servicefileread);
+
+	XSSFWorkbook wbheader = new XSSFWorkbook(fis);
+	XSSFSheet wbsheetread = wbheader.getSheetAt(0);
+
+	XSSFWorkbook wbwr = new XSSFWorkbook();
+	XSSFSheet sheetService = wbwr.createSheet("ServiceManage");
+
+	XSSFRow rowhedaer = sheetService.createRow(0);
+
+	for (int x = 0; x < wbheader.getSheetAt(0).getRow(0).getLastCellNum(); x++) {
+
+	    String headerwrite = wbsheetread.getRow(0).getCell(x).getStringCellValue();
+	    XSSFCell cellheader = rowhedaer.createCell(x);
+	    cellheader.setCellValue(headerwrite);
 	}
+
+	for (int row = 1; row <= servicecount; row++) {
+
+	    int randomnum = ThreadLocalRandom.current().nextInt(4, 5 + row);
+
+	    XSSFRow rowsvc = sheetService.createRow(row);
+
+	    XSSFCell cell_1 = rowsvc.createCell(0);
+	    cell_1.setCellValue("Service-Name" + String.valueOf(randomnum));
+
+	    XSSFCell cell_2 = rowsvc.createCell(1);
+	    cell_2.setCellValue(servicetype);
+
+	    XSSFCell cell_3 = rowsvc.createCell(2);
+	    cell_3.setCellValue(sleep);
+
+	    XSSFCell cell_4 = rowsvc.createCell(3);
+	    cell_4.setCellValue(appserver);
+
+	    XSSFCell cell_5 = rowsvc.createCell(4);
+	    cell_5.setCellValue(appserverurl);
+
+	    XSSFCell cell_6 = rowsvc.createCell(5);
+	    cell_6.setCellValue(port);
+
+	    XSSFCell cell_7 = rowsvc.createCell(6);
+	    cell_7.setCellValue(cabinetname);
+
+	    XSSFCell cell_8 = rowsvc.createCell(7);
+	    cell_8.setCellValue(username);
+
+	    XSSFCell cell_9 = rowsvc.createCell(8);
+	    cell_9.setCellValue(password);
+
+	    XSSFCell cell_10 = rowsvc.createCell(9);
+	    cell_10.setCellValue(queuename);
+
+	    XSSFCell cell_11 = rowsvc.createCell(10);
+	    cell_11.setCellValue(engine);
+
+	}
+
+	wbheader.close();
 	fis.close();
-	wb.write(fos);
-	wb.close();
+
+	wbwr.write(fos);
+	wbwr.close();
 	fos.close();
 
     }
